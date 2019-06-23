@@ -2,7 +2,7 @@
 A simple demo of how to use await with Winforms and the .NET Framework 4.8.
 
 # How to install
-* Download this repository.
+* Clone/Download this repository.
 * Load the solution in Visual Studio 2019.
 * Run "Restore Nuget Packages" (right-click on the main solution).
 
