@@ -9,6 +9,25 @@
     public static class Extensions {
 
         /// <summary>
+        ///     Safely set the <see cref="Control.Enabled" /> of the control across threads.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="value">  </param>
+        public static void Enabled( [NotNull] this Control control, Boolean value ) {
+            if ( control == null ) {
+                throw new ArgumentNullException( paramName: nameof( control ) );
+            }
+
+            control.InvokeAction( () => {
+                if ( !control.IsDisposed ) {
+                    control.Enabled = value;
+
+                    control.Refresh();
+                }
+            } );
+        }
+
+        /// <summary>
         ///     <para>Perform an <see cref="Action" /> on the control's thread.</para>
         /// </summary>
         /// <param name="control"></param>
@@ -93,28 +112,5 @@
                 }
             } );
         }
-
-        /// <summary>
-        ///     Safely set the <see cref="Control.Enabled" /> of the control across threads.
-        /// </summary>
-        /// <param name="control"></param>
-        /// <param name="value">  </param>
-        public static void Enabled( [NotNull] this Control control, Boolean value ) {
-            if ( control == null ) {
-                throw new ArgumentNullException( paramName: nameof( control ) );
-            }
-
-            control.InvokeAction( () => {
-                if ( !control.IsDisposed ) {
-                    control.Enabled = value;
-
-                    control.Refresh();
-
-                }
-
-            } );
-        }
-
     }
-
 }

@@ -20,7 +20,7 @@
 
             do {
                 summary += 1;
-                var current = ( Int32 ) stopwatch.Elapsed.TotalSeconds;
+                var current = ( Int32 )stopwatch.Elapsed.TotalSeconds;
 
                 if ( current > lastReport ) {
                     report.Report( current );
@@ -39,33 +39,37 @@
 
         private async void ButtonGoWith_Click( Object sender, EventArgs e ) {
             try {
-                this.buttonGoWithout.Enabled = false;
+                ( sender as Control )?.Enabled( false );
 
                 if ( this.GetValue( out var time ) ) {
                     this.Reset( time: time );
-                    this.Message( "Running calculation. NOTE: Try moving this form.." );
+                    this.Message( String.Empty );
+                    this.Message( "Running calculation WITH await." );
+                    this.Message( "Try moving this form.." );
                     var result = await Task.Run( () => LongCalculation( time, new Progress<Int32>( this.ReportProgress ) ) ).ConfigureAwait( false );
                     this.Message( $"The result is {result:N0}." );
                 }
             }
             finally {
-                this.buttonGoWithout.Enabled( true );
+                ( sender as Control )?.Enabled( true );
             }
         }
 
         private void ButtonGoWithout_Click( Object sender, EventArgs e ) {
             try {
-                this.buttonGoWithout.Enabled = false;
+                ( sender as Control )?.Enabled( false );
 
                 if ( this.GetValue( out var time ) ) {
                     this.Reset( time: time );
-                    this.Message( "Running calculation. NOTE: Try moving this form.." );
+                    this.Message( String.Empty );
+                    this.Message( "Running calculation WITHOUT await." );
+                    this.Message( "Try moving this form.." );
                     var result = LongCalculation( time, new Progress<Int32>( this.ReportProgress ) );
                     this.Message( $"The result is {result:N0}." );
                 }
             }
             finally {
-                this.buttonGoWithout.Enabled( true );
+                ( sender as Control )?.Enabled( true );
             }
         }
 
@@ -79,7 +83,7 @@
                 this.Message( "Unable to parse value. Please enter a number." );
                 time = default;
 
-                return false;
+                return default;
             }
 
             time = TimeSpan.FromSeconds( seconds );
@@ -88,7 +92,7 @@
         }
 
         private void Message( [CanBeNull] String text ) {
-            this.textBoxMain.Text( $"{this.textBoxMain.Text()}{Environment.NewLine}{text}".Trim() );
+            this.textBoxMain.Text( $"{this.textBoxMain.Text()}{Environment.NewLine}{text}" );
             this.textBoxMain.InvokeAction( () => this.textBoxMain.ScrollToCaret() );
         }
 
@@ -100,11 +104,9 @@
         }
 
         private void Reset( TimeSpan time ) {
-            this.toolStripProgressBar1.Minimum = 0;
-            this.toolStripProgressBar1.Maximum = 1 + ( Int32 ) time.TotalSeconds;
-            this.toolStripProgressBar1.Value = 0;
+            this.toolStripProgressBar1.Minimum = default;
+            this.toolStripProgressBar1.Maximum = 1 + ( Int32 )time.TotalSeconds;
+            this.toolStripProgressBar1.Value = default;
         }
-
     }
-
 }

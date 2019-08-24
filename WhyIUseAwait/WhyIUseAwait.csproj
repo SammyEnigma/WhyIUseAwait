@@ -84,9 +84,6 @@
     <PackageReference Include="JetBrains.Annotations">
       <Version>2019.1.1</Version>
     </PackageReference>
-    <PackageReference Include="Svg">
-      <Version>2.4.3</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

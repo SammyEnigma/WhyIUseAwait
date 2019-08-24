@@ -16,9 +16,6 @@
             using ( var form = new Form1() ) {
                 Application.Run( form );
             }
-
         }
-
     }
-
 }
